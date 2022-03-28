@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require('fs');
 const app = express()
 const path = require("path")
+const bodyParser = require("body-parser")
 const {PythonShell} = require('python-shell');
 
 //Settings
@@ -11,7 +12,9 @@ app.set('public', path.join(__dirname, 'public'))
 
 const codeFolder = path.join(__dirname, 'code')
 
-app.use(express.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 page=path.join(app.get('public'),'/index.html')
 
@@ -19,9 +22,10 @@ app.get("/", (req,res) =>{
     res.sendFile(page)
 })
 
-app.post('/', (req,res) => {
-    var filepath = path.join(codeFolder, 'test.txt')
+app.post('/compiler', (req,res) => {
+    var filepath = path.join(codeFolder, 'text.txt')
     var fileContent = req.body.code
+    console.log(fileContent);
     fs.writeFile(filepath, fileContent, (err) => {
         if (err) throw err;
    
@@ -34,11 +38,17 @@ app.post('/', (req,res) => {
             if (err) throw err;
             // results is an array consisting of messages collected during execution
             data = JSON.parse(results[0])
+            console.log(data);
             res.send(data)
         });
     
     }); 
 
+})
+
+app.post('/test', (req,res) =>{
+    console.log(req.body);
+    res.send("received")
 })
 
 app.use(express.static('public'));
