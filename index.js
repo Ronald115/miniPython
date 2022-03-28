@@ -27,6 +27,8 @@ app.post('/', (req,res) => {
     
         console.log("The file was succesfully saved!");
     }); 
+    res.send(req.body)
+    /*
     // spawn new child process to call the python script
     const python = spawn('python', ['main.py']);
     // collect data from script
@@ -36,9 +38,9 @@ app.post('/', (req,res) => {
         // in close event we are sure that stream from child process is closed
         python.on('close', (code) => {
         console.log(`child process close all stdio with code ${code}`);
-        res.send("post data received "+ data)
+        res.send("post data received ")
     });
-
+    */
 
 })
 

@@ -31,7 +31,7 @@ program : statement*    #programAST;
 
 //2 ***
 statement : DEF ID LEFTP argList RIGHTP COLON sequence  #defStatement                            //3
-            |  IF LEFTP? expression RIGHTP? COLON sequence (ELSE COLON sequence)? #ifStatement                         //6
+            | IF LEFTP? expression RIGHTP? COLON sequence (ELSE COLON sequence)? #ifStatement                         //6
             | RETURN LEFTP? expression RIGHTP? NEWLINE #returnStatement                                            //7
             | PRINT LEFTP expression RIGHTP NEWLINE #printStatement                                              //8
             | WHILE LEFTP? expression RIGHTP? COLON sequence #whileStatement                                       //9
@@ -67,7 +67,7 @@ multiplicationExpression : elementExpression multiplicationFactor #multiplicatio
 
 
 //21
-multiplicationFactor : ( (MUL|DIV) elementExpression )* #MulFactor;
+multiplicationFactor : ( (MUL|DIV) elementExpression )* #mulFactor;
 
 //22
 elementExpression : primitiveExpression elementAccess #elementExpressionAST;
@@ -81,21 +81,22 @@ expressionList : expression (COMMA expression)*  #expressionListAST;
 
 
 
-identifierExpression : ID (
-                        (LEFTP expressionList RIGHTP)?
-                        | LEFTP expression RIGHTP
-                        | listExpression
-                        | LEN LEFTP expression RIGHTP
-                      ) #identifierEx;
 
-
+/*
+identifierExpression : ID LEFTP expressionList RIGHTP #callMultipleExpressions
+                        | ID LEFTP expression RIGHTP #callExpression
+                        | ID listExpression #listExpressions
+                        | LEN LEFTP expression RIGHTP  #lenExpression;
+*/
 //26
 primitiveExpression : NUM     #integerPE
                     | FLOAT   #floatPE
                     | CHAR    #charPE
                     | STRING  #stringPE
-                    | identifierExpression #identifierPE;
-
+                    | ID (LEFTP expressionList? RIGHTP)?     #identifierPE
+                    | LEFTP expression RIGHTP # expressPE
+                    | listExpression #listExPE
+                    | LEN LEFTP expression RIGHTP #lenPE;
 
 
 
