@@ -12,18 +12,33 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="text-center">
-    
     <main class="form-signin">
-      <form action="/" method="post">  
+      <form action="/" method="post"> 
         <h1 class="h3 mb-3 fw-normal">CODE</h1>
-    
-        <textarea name="code" cols="40" rows="5"></textarea>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">COMPILAR</button>
+        <textarea name="code" cols="70" rows="20"></textarea>
+        <button class="w-50 btn btn-lg btn-primary" type="submit" id="bSumit">COMPILE</button>
       </form>
     </main>
-    
-    
+
+    <script>
+      const bSumit = document.querySelector('#bSumit');
+      bSumit.addEventListener('click',()=>{
+        alert('hola');
+      });
+
+      function loadText(){
+        fetch('/get-text', {method: 'GET'})
+        .then(res => res.text())
+        .then(data =>{
+          const textarea = document.getElementsByName('result')
+          let html = ;
+          var filepath = path.join(codeFolder, 'test.txt')
+          `<textarea disabled name="result" cols="70" rows="5">${filepath}</textarea>` += html;
+          
+        })
+      }
+    </script>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    
-      </body>
+  
 </html>
