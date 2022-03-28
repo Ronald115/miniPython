@@ -9,9 +9,9 @@
           <option name="outputDir" value="D:\Sebas\TEC\2022\1 Semestre\Compiladores e Interpretes\MiniPy\miniPython" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
-          <option name="pkg" value="generated" />
+          <option name="pkg" value="" />
           <option name="language" value="Python3" />
-          <option name="generateVisitor" value="true" />
+          <option name="generateListener" value="false" />
         </PerGrammarGenerationSettings>
       </list>
     </option>

@@ -24,49 +24,29 @@ def nextToken(self):
 }
 
 
-//1
+//1 *** 
 program : statement*    #programAST;
 
-//2
-statement : defStatement | ifStatement | returnStatement
-            | printStatement | whileStatement | forStatement
-            | assignStatement | functionCallStatement | expressionStatement
-                        #statementAST;
+//2 ***
+statement :   DEF ID LEFTP argList RIGHTP COLON sequence   #defStatement                            //3
+            | IF expression COLON sequence ELSE COLON sequence #ifStatement                         //6
+            | RETURN expression NEWLINE #returnStatement                                            //7
+            | PRINT expression NEWLINE #printStatement                                              //8
+            | WHILE expression COLON sequence #whileStatement                                       //9
+            | FOR expression IN expressionList COLON sequence #forStatement                         //10
+            | ID ASSIGN expression NEWLINE #assignStatement                                         //11
+            | primitiveExpression LEFTP expressionList RIGHTP NEWLINE  #functionCallStatement       //12
+            | expressionList NEWLINE #expressionStatement;                                          //13
 //3
-defStatement : DEF ID LEFTP argList RIGHTP COLON sequence   #defStatementAST;
+//defStatement : DEF ID LEFTP argList RIGHTP COLON sequence   #defStatementAST;
 
-//4
-argList : ID | '' | ID(COMMA ID)*   #argListAST;
+//4 ***
+argList :     ID?  #argument
+            | ID(COMMA ID)*   #argumentsList;
 
-//6
-ifStatement : IF expression COLON sequence ELSE COLON sequence #ifStatementAST;
+//14 ***
+sequence: INDENT (statement)* DEDENT #sequenceAST;
 
-//7
-whileStatement : WHILE expression COLON sequence #whileStatementAST;
-
-//8
-forStatement : FOR expression IN expressionList COLON sequence #forStatementAST;
-
-//9
-returnStatement : RETURN expression NEWLINE #returnStatementAST;
-
-//10
-printStatement : PRINT expression NEWLINE #printStatement;
-
-//11
-assignStatement : ID ASSIGN expression NEWLINE #assignStatementAST;
-
-//12
-functionCallStatement : primitiveExpression LEFTP expressionList RIGHTP NEWLINE  #functionCallStatementAST;
-
-//13
-expressionStatement : expressionList NEWLINE #expressionStatementAST;
-
-//14
-sequence: INDENT moreStatements DEDENT #sequenceAST;
-
-//15
-moreStatements : (statement)* #moreStatementsAST; 
 
 //16
 expression: additionExpression comparison #expressionAST;
@@ -78,28 +58,26 @@ comparison: ( (LT| GT  | LET | GET | EQUAL)   additionExpression)* #comparisonAS
 additionExpression: multiplicationExpression additionFactor #aditionalExpressionAST;
 
 //19 ///////////////////////////////////////////////////////////////////////////
-additionFactor: (ADD multiplicationExpression
-                | SUB multiplicationExpression)* 
-                #additionFactorAST;
+additionFactor: ( (ADD | SUB) elementExpression)* #addFactor;
 
 //20
 multiplicationExpression : elementExpression multiplicationFactor #multiplicationExpressionAST;
 
 
 //21
-multiplicationFactor: ( (MUL|DIV) elementExpression )* #multiplicationFactorAST;
+multiplicationFactor: ( (MUL|DIV) elementExpression )* #MulFactor;
 
 //22
 elementExpression : primitiveExpression elementAccess #elementExpressionAST;
 
-//23
+//23 ***
 elementAccess : (LEFTSQUARE expression RIGHTSQUARE)* #elementAccessAST;
 
-//24
-expressionList : (expression moreExpressions)* #expressionListAST;
+//24 ***
+//expressionList : (expression moreExpressions)* #expressionListAST;
+expressionList : expression (COMMA expression)*  #expressionListAST;
 
-//25
-moreExpressions : (COMMA expression)* #moreExpressionsAST;
+
 
 //26
 primitiveExpression : (INTEGER | FLOAT | CHARCONST | STRING | ID) (
@@ -109,7 +87,15 @@ primitiveExpression : (INTEGER | FLOAT | CHARCONST | STRING | ID) (
         | LEN LEFTP expression RIGHTP    
     ) #primitiveExpressionAST;
 
-//27
+//primitiveExpression : (INTEGER | FLOAT | CHARCONST | STRING | ID) (
+//         LEFTP expressionList RIGHTP
+//        | LEFTP expression RIGHTP
+//        | listExpression
+//       | LEN LEFTP expression RIGHTP
+//    ) #primitiveExpressionAST;
+
+
+//27 ***
 listExpression: LEFTSQUARE expressionList RIGHTSQUARE #listExpressionAST;
 
 
@@ -158,10 +144,6 @@ LET: '<=';
 GET: '>=';
 EQUAL: '==';
 
-//Logic
-AND: 'and';
-OR: 'or';
-NOT: 'not';
 
 //Otros tokens
 NUM : DIGIT DIGIT*;
@@ -175,5 +157,67 @@ NEWLINE: ('\r'? '\n' (' ' | '\t')*); //For tabs just switch out ' '* with '\t'*
 
 WS  :   [ +\r\n\t] -> skip ;
 
+COMMENT : '"""' .*? '"""' -> skip;
+
+LINECOMMENT: '#' ~[\r\n]* -> skip;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//6
+//ifStatement : IF expression COLON sequence ELSE COLON sequence #ifStatementAST;
+
+//7
+//whileStatement : WHILE expression COLON sequence #whileStatementAST;
+
+//8
+//forStatement : FOR expression IN expressionList COLON sequence #forStatementAST;
+
+//9
+//returnStatement : RETURN expression NEWLINE #returnStatementAST;
+
+//10
+//printStatement : PRINT expression NEWLINE #printStatementAST;
+
+//11
+//assignStatement : ID ASSIGN expression NEWLINE #assignStatementAST;
+
+//12
+//functionCallStatement : primitiveExpression LEFTP expressionList RIGHTP NEWLINE  #functionCallStatementAST;
+
+//13
+//expressionStatement : expressionList NEWLINE #expressionStatementAST;
+
+
+
+//15
+//moreStatements : (statement)* #moreStatementsAST;
+
+
+//25
+//moreExpressions : (COMMA expression)* #moreExpressionsAST;
+
+
+/*
+Logic
+AND: 'and';
+OR: 'or';
+NOT: 'not';
+*/
