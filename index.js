@@ -2,8 +2,7 @@ const express = require("express");
 const fs = require('fs');
 const app = express()
 const path = require("path")
-const {spawn} = require('child_process');
-
+const {PythonShell} = require('python-shell');
 
 //Settings
 app.set('port',3000)
@@ -19,28 +18,24 @@ app.get("/", (req,res) =>{
 })
 
 app.post('/', (req,res) => {
-    console.log(req.body);
     var filepath = path.join(codeFolder, 'test.txt')
     var fileContent = req.body.code
     fs.writeFile(filepath, fileContent, (err) => {
         if (err) throw err;
+   
+        let options = {
+            args: [filepath],
+            pythonPath: path.join(__dirname,'venv/Scripts/python.exe')
+        }
+        
+        PythonShell.run('main.py', options, (err, results) => {
+            if (err) throw err;
+            // results is an array consisting of messages collected during execution
+            data = JSON.parse(results[0])
+            res.send(data)
+        });
     
-        console.log("The file was succesfully saved!");
     }); 
-    res.send(req.body)
-    /*
-    // spawn new child process to call the python script
-    const python = spawn('python', ['main.py']);
-    // collect data from script
-    python.stdout.on('data', (d) => {
-        data = d
-    });
-        // in close event we are sure that stream from child process is closed
-        python.on('close', (code) => {
-        console.log(`child process close all stdio with code ${code}`);
-        res.send("post data received ")
-    });
-    */
 
 })
 
@@ -51,9 +46,3 @@ app.listen(app.get('port'), () =>{
 
 })
 
-
-
-   /*
-    
-
-    */
