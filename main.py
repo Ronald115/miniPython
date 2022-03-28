@@ -1,11 +1,11 @@
 import sys
-from generated.ParserLexer import ParserLexer
-from generated.ParserParser import ParserParser
+from miParserLexer import miParserLexer
+from miParserParser import miParserParser
 from antlr4 import *
 
 if __name__ == "__main__":
     input = FileStream(sys.argv[1])
-    lexer = ParserLexer(input)
+    lexer = miParserLexer(input)
     stream = CommonTokenStream(lexer)
-    parser = ParserParser(stream)
+    parser = miParserParser(stream)
     tree = parser.program()

@@ -1,0 +1,27 @@
+def calcularpromedioventas():
+    prom = promedio(ventas)
+    print("El promedio de las ventas es: ")
+    print(prom)
+
+print("Calculo del Factorial: " + calcularFac(6))
+calcularpromedioventas()
+
+
+
+
+
+"""
+
+
+asdasd
+
+
+"""
+
+#asdasdasda
+
+##asdasdasdasd
+
+
+"""asdasdasd"""
+
