@@ -1,11 +1,43 @@
+
+import json
 import sys
-from generated.ParserLexer import ParserLexer
-from generated.ParserParser import ParserParser
+
+from miParserLexer import miParserLexer
+from miParserParser import miParserParser
 from antlr4 import *
+from antlr4.error.ErrorListener import ErrorListener
+
+
+errors = {"parser": [], "lexer": []}
+
+
+class ParserErrorListener(ErrorListener):
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        errors["parser"].append({'line': line, 'column': column, 'msg': msg})
+        # print("Parser ERROR: when parsing line %d column %d: %s\n" %(line, column, msg))
+
+
+class LexerErrorListener(ErrorListener):
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        errors["lexer"].append({'line': line, 'column': column, 'msg': msg})
+        # print("Scanner ERROR: line %d:%d %s\n" %(line, column, msg))
+
+
 
 if __name__ == "__main__":
-    input = FileStream(sys.argv[1])
-    lexer = ParserLexer(input)
+    file = FileStream(sys.argv[1])
+    lexer = miParserLexer(file)
+    lexer.removeErrorListeners()
+    lexerError = LexerErrorListener()
+
+    lexer.addErrorListener(lexerError)
+
     stream = CommonTokenStream(lexer)
-    parser = ParserParser(stream)
+    parser = miParserParser(stream)
+    parser.removeErrorListeners()
+    parserErrorListener = ParserErrorListener()
+    parser.addErrorListener(parserErrorListener)
     tree = parser.program()
+    print(json.dumps(errors))
+
+
