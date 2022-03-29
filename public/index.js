@@ -61,7 +61,7 @@ compile.addEventListener('click', async ()=>{
 })
 
 fileButton.addEventListener('click', () => {
-    let code = document.querySelector(".codeTA")
+
     let input = document.createElement('input');
     input.type = 'file';
     input.onchange = () => {
@@ -69,14 +69,20 @@ fileButton.addEventListener('click', () => {
         let files =   Array.from(input.files);
         let file = files[0]
         if (file) {
+      
             var reader = new FileReader();
             reader.readAsText(file, "UTF-8");
             reader.onload =  (evt) => {
+                let codeTA = document.querySelector(".codeTA")
+                console.log(codeTA.innerHTML);
                 code.innerHTML = evt.target.result;
+                console.log(evt.target.result);
             }
             reader.onerror = _ => {
                 console.log("error reading file");
             }
+
+         
         }
     };
     input.click();

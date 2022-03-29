@@ -42,8 +42,14 @@ h1 {
 }
 
 .boton {
-  display: inline-block;
-  margin-bottom: 10%;
+  display: inline;
+  margin-bottom: 2%;
+
+}
+
+.btnFile {
+  display: inline;
+  margin-bottom: 2%;
 }
 
 

@@ -25,7 +25,6 @@ app.get("/", (req,res) =>{
 app.post('/compiler', (req,res) => {
     var filepath = path.join(codeFolder, 'text.txt')
     var fileContent = req.body.code
-    console.log(fileContent);
     fs.writeFile(filepath, fileContent, (err) => {
         if (err) throw err;
    
@@ -38,7 +37,6 @@ app.post('/compiler', (req,res) => {
             if (err) throw err;
             // results is an array consisting of messages collected during execution
             data = JSON.parse(results[0])
-            console.log(data);
             res.send(data)
         });
     
@@ -46,10 +44,6 @@ app.post('/compiler', (req,res) => {
 
 })
 
-app.post('/test', (req,res) =>{
-    console.log(req.body);
-    res.send("received")
-})
 
 app.use(express.static('public'));
 
