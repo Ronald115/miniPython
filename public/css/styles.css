@@ -13,7 +13,6 @@ body {
 
 .form-signin {
   width: 100%;
-  max-width: 900px;
   padding: 15px;
   margin: auto;
 }
@@ -45,4 +44,13 @@ h1 {
 .boton {
   display: inline-block;
   margin-bottom: 10%;
+}
+
+
+.redText{
+  color: red;
+}
+
+.greenText{
+  color: green;
 }

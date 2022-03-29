@@ -1,7 +1,5 @@
 var compile = document.querySelector(".boton")
-
-
-
+var fileButton = document.querySelector("#fileButton")
 
 
 
@@ -45,9 +43,42 @@ compile.addEventListener('click', async ()=>{
             successful = false
         }
 
+        result.classList.remove("redText")
+        result.classList.remove("greenText")
         
-        result.innerHTML = resultLog
+
+        if (successful){
+            result.classList.add("greenText")
+            result.innerHTML = "Compilation Successfull"
+        }else{
+            result.classList.add("redText")
+            result.innerHTML = resultLog
+        }
+
     });
       
 
 })
+
+fileButton.addEventListener('click', () => {
+    let code = document.querySelector(".codeTA")
+    let input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = () => {
+      // you can use this method to get file and perform respective operations
+        let files =   Array.from(input.files);
+        let file = files[0]
+        if (file) {
+            var reader = new FileReader();
+            reader.readAsText(file, "UTF-8");
+            reader.onload =  (evt) => {
+                code.innerHTML = evt.target.result;
+            }
+            reader.onerror = _ => {
+                console.log("error reading file");
+            }
+        }
+    };
+    input.click();
+})
+
