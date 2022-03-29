@@ -17,7 +17,7 @@
           <option name="fileName" value="$PROJECT_DIR$/miParser.g4" />
           <option name="autoGen" value="true" />
           <option name="outputDir" value="D:\Sebas\TEC\2022\1 Semestre\Compiladores e Interpretes\MiniPy\miniPython" />
-          <option name="libDir" value="" />
+          <option name="libDir" value="generated" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />
           <option name="language" value="Python3" />

@@ -49,7 +49,7 @@ compile.addEventListener('click', async ()=>{
 
         if (successful){
             result.classList.add("greenText")
-            result.innerHTML = "Compilation Successfull"
+            result.innerHTML = "Compilation Successful"
         }else{
             result.classList.add("redText")
             result.innerHTML = resultLog

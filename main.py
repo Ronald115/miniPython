@@ -1,9 +1,10 @@
 
 import json
 import sys
+sys.path.append("./generated")
 
-from miParserLexer import miParserLexer
-from miParserParser import miParserParser
+from generated.miParserLexer import miParserLexer
+from generated.miParserParser import miParserParser
 from antlr4 import *
 from antlr4.error.ErrorListener import ErrorListener
 
