@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
     ac = Contextual()
     ac.visit(tree)
-
+    ac.imprimir()
     print(json.dumps(errors))
 
 

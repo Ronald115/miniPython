@@ -30,13 +30,13 @@ program : statement*    #programAST;
 
 
 //2 ***
-statement : DEF ident LEFTP argList RIGHTP COLON sequence  #defStatement                            //3
+statement : DEF ID LEFTP argList RIGHTP COLON sequence  #defStatement                            //3
             | IF LEFTP? expression RIGHTP? COLON sequence (ELSE COLON sequence)? #ifStatement                         //6
             | RETURN LEFTP? expression RIGHTP? NEWLINE #returnStatement                                            //7
             | PRINT LEFTP expression RIGHTP NEWLINE #printStatement                                              //8
             | WHILE LEFTP? expression RIGHTP? COLON sequence #whileStatement                                       //9
             | FOR LEFTP? expression RIGHTP? IN expressionList COLON sequence #forStatement                         //10
-            | ident ASSIGN expression NEWLINE  #assignStatement                                         //11
+            | ID ASSIGN expression NEWLINE  #assignStatement                                         //11
             | primitiveExpression LEFTP expressionList RIGHTP NEWLINE  #functionCallStatement       //12
             | expressionList NEWLINE #expressionStatement;                                          //13
 //3
