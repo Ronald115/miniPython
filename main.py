@@ -1,6 +1,9 @@
 
 import json
 import sys
+
+from Contextual import Contextual
+
 sys.path.append("./generated")
 
 from generated.miParserLexer import miParserLexer
@@ -39,6 +42,10 @@ if __name__ == "__main__":
     parserErrorListener = ParserErrorListener()
     parser.addErrorListener(parserErrorListener)
     tree = parser.program()
+
+    ac = Contextual()
+    ac.visit(tree)
+
     print(json.dumps(errors))
 
 

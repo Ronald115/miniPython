@@ -89,8 +89,8 @@ identifierExpression : ID LEFTP expressionList RIGHTP #callMultipleExpressions
                         | LEN LEFTP expression RIGHTP  #lenExpression;
 */
 //26
-primitiveExpression : NUM     #integerPE
-                    | FLOAT   #floatPE
+primitiveExpression : '-'?NUM     #integerPE
+                    | '-'?FLOAT   #floatPE
                     | CHAR    #charPE
                     | STRING  #stringPE
                     | ID (LEFTP expressionList? RIGHTP)?     #identifierPE
@@ -112,7 +112,9 @@ RIGHTSQUARE : ']';
 LEFTP : '(';
 RIGHTP : ')';
 ASSIGN : '=';
+SQUOTES : ['];
 DQUOTES : '"';
+QUOTES : SQUOTES | DQUOTES;
 
 //Palabras reservadas
 IF : 'if';
@@ -145,9 +147,19 @@ GET : '>=';
 EQUAL : '==';
 
 
+
+
+
+BSN : '\\n';
+BST : '\\t';
+
+ES : BSN | BST;
+
 FLOAT : NUM'.'NUM;
-CHAR : DQUOTES LETTER+ DQUOTES;
-STRING :  DQUOTES (LETTER | DIGIT | SYMBOLS)* DQUOTES;
+
+
+CHAR : SQUOTES (LETTER | DIGIT | SYMBOLS | ES) SQUOTES;
+STRING :  QUOTES (LETTER | DIGIT | SYMBOLS | ES)* QUOTES;
 
 //otros tokens
 NUM : DIGIT DIGIT*;
@@ -162,7 +174,7 @@ SKIPP : (  COMMENT  | LINECOMMENT ) -> skip;
 
 fragment DIGIT : [0-9];
 fragment LETTER : [a-zA-Z];
-fragment SYMBOLS : ' ' | ':' | ';' | ',' | '_' | '-';
+fragment SYMBOLS : ' ' | ':' | ';' | ',' | '_' | '-' | '%' | '$';
 fragment COMMENT : '"""' .*? '"""';
 fragment LINECOMMENT : '#' ~[\r\n]*;
 
