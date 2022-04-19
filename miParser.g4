@@ -30,21 +30,21 @@ program : statement*    #programAST;
 
 
 //2 ***
-statement : DEF ID LEFTP argList RIGHTP COLON sequence  #defStatement                            //3
+statement : DEF ident LEFTP argList RIGHTP COLON sequence  #defStatement                            //3
             | IF LEFTP? expression RIGHTP? COLON sequence (ELSE COLON sequence)? #ifStatement                         //6
             | RETURN LEFTP? expression RIGHTP? NEWLINE #returnStatement                                            //7
             | PRINT LEFTP expression RIGHTP NEWLINE #printStatement                                              //8
             | WHILE LEFTP? expression RIGHTP? COLON sequence #whileStatement                                       //9
             | FOR LEFTP? expression RIGHTP? IN expressionList COLON sequence #forStatement                         //10
-            | ID ASSIGN expression NEWLINE  #assignStatement                                         //11
+            | ident ASSIGN expression NEWLINE  #assignStatement                                         //11
             | primitiveExpression LEFTP expressionList RIGHTP NEWLINE  #functionCallStatement       //12
             | expressionList NEWLINE #expressionStatement;                                          //13
 //3
 //defStatement : DEF ID LEFTP argList RIGHTP COLON sequence   #defStatementAST;
 
 //4 ***
-argList :     ID?  #argument
-            | ID(COMMA ID)*   #argumentsList;
+argList :     ident?  #argument
+            | ident(COMMA ident)*   #argumentsList;
 
 //14 ***
 sequence : INDENT (statement)+ DEDENT #sequenceAST;
@@ -93,7 +93,7 @@ primitiveExpression : '-'?NUM     #integerPE
                     | '-'?FLOAT   #floatPE
                     | CHAR    #charPE
                     | STRING  #stringPE
-                    | ID (LEFTP expressionList? RIGHTP)?     #identifierPE
+                    | ident (LEFTP expressionList? RIGHTP)?     #identifierPE
                     | LEFTP expression RIGHTP # expressPE
                     | listExpression #listExPE
                     | LEN LEFTP expression RIGHTP #lenPE;
@@ -103,6 +103,8 @@ primitiveExpression : '-'?NUM     #integerPE
 //27 ***
 listExpression : LEFTSQUARE expressionList RIGHTSQUARE #listExpressionAST;
 
+//28
+ident : ID #identAST;
 
 //símbolos
 COMMA : ',';

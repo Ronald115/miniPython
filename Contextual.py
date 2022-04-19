@@ -11,8 +11,9 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #defStatement.
     def visitDefStatement(self, ctx: miParserParser.DefStatementContext):
-
-        return None
+        self.visit(ctx.ident())
+        self.visit(ctx.argList())
+        self.visit(ctx.sequence())
 
     # Visit a parse tree #ifStatement.
     def visitIfStatement(self, ctx: miParserParser.IfStatementContext):
@@ -130,4 +131,8 @@ class Contextual(miParserVisitor):
     # Visit a parse tree #listExpressionAST.
     def visitListExpressionAST(self, ctx: miParserParser.ListExpressionASTContext):
         return self.visitChildren(ctx)
+
+    # Visit a parse tree produced by miParserParser#ident.
+    def visitIdentAST(self, ctx: miParserParser.IdentContext):
+        return None
 

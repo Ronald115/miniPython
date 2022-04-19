@@ -164,5 +164,10 @@ class miParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by miParserParser#identAST.
+    def visitIdentAST(self, ctx:miParserParser.IdentASTContext):
+        return self.visitChildren(ctx)
+
+
 
 del miParserParser
