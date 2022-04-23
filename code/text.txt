@@ -1,4 +1,15 @@
 x = 1
-def asd():
-    a = 2
-    print(b)
+
+
+
+def b():
+    print("B 0")
+
+a()
+
+def a():
+    def b():
+        print("B 1")
+    def b(a):
+        print("B 2")
+

@@ -2,12 +2,15 @@ from generated.miParserVisitor import miParserVisitor
 from generated.miParserParser import miParserParser
 
 from TablaSimbolos import TablaSimbolos
-
+from TablaMetodos import TablaMetodos
 
 class Contextual(miParserVisitor):
+
     def __init__(self):
         self.ts = TablaSimbolos()
         self.ts.openScope()
+        self.tm = TablaMetodos()
+        self.tm.openScope()
 
     # Visit a parse tree #programAST.
     def visitProgramAST(self, ctx: miParserParser.ProgramASTContext):
@@ -16,12 +19,15 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #defStatement.
     def visitDefStatement(self, ctx: miParserParser.DefStatementContext):
+        args = self.visit(ctx.argList())
+        self.tm.insertar(ctx.ID().getSymbol(), ctx, args)
+
         self.ts.openScope()
-        self.visit(ctx.ident())
-        self.visit(ctx.argList())
+        self.tm.openScope()
         self.visit(ctx.sequence())
-        self.ts.imprimir()
+
         self.ts.closeScope()
+        self.tm.closeScope()
 
     # Visit a parse tree #ifStatement.
     def visitIfStatement(self, ctx: miParserParser.IfStatementContext):
@@ -50,29 +56,40 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #assignStatement.
     def visitAssignStatement(self, ctx: miParserParser.AssignStatementContext):
-        _, ctxID = self.visit(ctx.ident())
-        self.ts.insertar(ctxID.getSymbol(), ctx)
+        found = self.ts.buscarEnNivelActual(ctx.ID().getText())
+        if not found:
+            self.ts.insertar(ctx.ID().getSymbol(), ctx)
+
         self.visit(ctx.expression())
 
     # Visit a parse tree #functionCallStatement.
     def visitFunctionCallStatement(self, ctx: miParserParser.FunctionCallStatementContext):
-        self.visit(ctx.primitiveExpression())
-        self.visit(ctx.expressionList())
-
+        ident = self.visitIdentMet(ctx.ident())
+        if ident:
+            if ctx.expressionList():
+                self.visit(ctx.expressionList())
+        else:
+            print(f"EL IDENTIFICADOR '{ctx.ident().getText()}' NO ESTA DEFINIDO")
     # Visit a parse tree #expressionStatement.
     def visitExpressionStatement(self, ctx: miParserParser.ExpressionStatementContext):
         self.visit(ctx.expressionList())
 
     # Visit a parse tree #argument.
     def visitArgument(self, ctx: miParserParser.ArgumentContext):
-        if ctx.ident():
-            self.visit(ctx.ident())
+        arg = []
+        if ctx.ID():
+            self.ts.insertar(ctx.ID().getSymbol(), ctx)
+            arg.append(ctx.ID())
+        return arg
 
     # Visit a parse tree #argumentsList.
     def visitArgumentsList(self, ctx: miParserParser.ArgumentsListContext):
-        self.visit(ctx.ident(0))
-        for i in range(1, len(ctx.ident())):
-            self.visit(ctx.ident(i) )
+        args = [ctx.ID(0)]
+        self.ts.insertar(ctx.ID(0).getSymbol(), ctx)
+        for i in range(1, len(ctx.ID())):
+            self.ts.insertar(ctx.ID(i).getSymbol(), ctx)
+            args.append(ctx.ID(i))
+        return args
 
     # Visit a parse tree #sequenceAST.
     def visitSequenceAST(self, ctx: miParserParser.SequenceASTContext):
@@ -121,7 +138,7 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #expressionListAST.
     def visitExpressionListAST(self, ctx: miParserParser.ExpressionListASTContext):
-        self.visit(ctx.expression())
+        self.visit(ctx.expression(0))
         for i in range(1, len(ctx.expression())):
             self.visit(ctx.expression(i))
         return None
@@ -144,13 +161,12 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #identifierPE.
     def visitIdentifierPE(self, ctx: miParserParser.IdentifierPEContext):
-        ident, _ = self.visit(ctx.ident())
+        ident = self.visit(ctx.ident())
         if ident:
-            print("EXISTE")
+            print(f"El IDENTIFICADOR '{ctx.ident().ID()}' EXISTE")
         else:
-            print("NO EXISTE")
-        if ctx.expressionList():
-            self.visit(ctx.expressionList())
+            print(f"EL IDENTIFICADOR '{ctx.ident().ID()}' NO EXISTE")
+        return ident
 
     # Visit a parse tree #expressPE.
     def visitExpressPE(self, ctx: miParserParser.ExpressPEContext):
@@ -172,7 +188,12 @@ class Contextual(miParserVisitor):
         return None
     # Visit a parse tree produced by miParserParser#ident.
     def visitIdentAST(self, ctx: miParserParser.IdentContext):
-        return self.ts.buscar(ctx.ID().getText()), ctx.ID()
+        return self.ts.buscar(ctx.ID().getText())
+
+    def visitIdentMet(self, ctx: miParserParser.IdentContext):
+        return self.tm.buscar(ctx.ID().getText())
+
 
     def imprimir(self):
         self.ts.imprimir()
+        self.tm.imprimir()

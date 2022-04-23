@@ -37,14 +37,14 @@ statement : DEF ID LEFTP argList RIGHTP COLON sequence  #defStatement           
             | WHILE LEFTP? expression RIGHTP? COLON sequence #whileStatement                                       //9
             | FOR LEFTP? expression RIGHTP? IN expressionList COLON sequence #forStatement                         //10
             | ID ASSIGN expression NEWLINE  #assignStatement                                         //11
-            | primitiveExpression LEFTP expressionList RIGHTP NEWLINE  #functionCallStatement       //12
+            | ident LEFTP expressionList? RIGHTP NEWLINE  #functionCallStatement       //12
             | expressionList NEWLINE #expressionStatement;                                          //13
 //3
 //defStatement : DEF ID LEFTP argList RIGHTP COLON sequence   #defStatementAST;
 
 //4 ***
-argList :     ident?  #argument
-            | ident(COMMA ident)*   #argumentsList;
+argList :     ID?  #argument
+            | ID(COMMA ID)*   #argumentsList;
 
 //14 ***
 sequence : INDENT (statement)+ DEDENT #sequenceAST;
@@ -93,7 +93,7 @@ primitiveExpression : '-'?NUM     #integerPE
                     | '-'?FLOAT   #floatPE
                     | CHAR    #charPE
                     | STRING  #stringPE
-                    | ident (LEFTP expressionList? RIGHTP)?     #identifierPE
+                    | ident     #identifierPE
                     | LEFTP expression RIGHTP # expressPE
                     | listExpression #listExPE
                     | LEN LEFTP expression RIGHTP #lenPE;
