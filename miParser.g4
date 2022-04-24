@@ -37,7 +37,7 @@ statement : DEF ID LEFTP argList RIGHTP COLON sequence  #defStatement           
             | WHILE LEFTP? expression RIGHTP? COLON sequence #whileStatement                                       //9
             | FOR LEFTP? expression RIGHTP? IN expressionList COLON sequence #forStatement                         //10
             | ID ASSIGN expression NEWLINE  #assignStatement                                         //11
-            | ident LEFTP expressionList? RIGHTP NEWLINE  #functionCallStatement       //12
+            | primitiveExpression LEFTP expressionList? RIGHTP NEWLINE  #functionCallStatement       //12
             | expressionList NEWLINE #expressionStatement;                                          //13
 //3
 //defStatement : DEF ID LEFTP argList RIGHTP COLON sequence   #defStatementAST;

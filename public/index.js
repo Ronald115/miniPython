@@ -21,7 +21,7 @@ compile.addEventListener('click', async ()=>{
         let parserErrors = receivedData.parser
         let lexerErrors = receivedData.lexer
         let contextualErrors = receivedData.contextual
-        
+        let typeErrors = receivedData.typeErrors
 
         let successful = true
 
@@ -70,7 +70,7 @@ compile.addEventListener('click', async ()=>{
                                     resultLog += ', '
                                 }
                             }
-                        
+                            resultLog += '\n'
                         
                         }else{
                             resultLog = resultLog + `argument: '${e.args[e.givenParams]}'`
@@ -84,6 +84,21 @@ compile.addEventListener('click', async ()=>{
                     }
                 }
                    
+            });
+
+            successful = false
+        }
+        
+        if (typeErrors.length){
+
+            typeErrors.forEach(e => {
+                resultLog = resultLog + `TypeError: '${e.type}' is not `
+                if (e.call){
+                    resultLog += `callable\n`
+                }else{
+                    resultLog += `suscriptable\n`
+                }
+               
             });
 
             successful = false

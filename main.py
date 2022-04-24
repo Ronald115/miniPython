@@ -14,7 +14,7 @@ from antlr4.error.ErrorListener import ErrorListener
 from Contextual import Contextual
 
 
-errors = {"parser": [], "lexer": [], "contextual": []}
+errors = {"parser": [], "lexer": [], "contextual": [], "typeErrors": []}
 
 
 class ParserErrorListener(ErrorListener):
@@ -51,7 +51,7 @@ if __name__ == "__main__":
         ac = Contextual()
         ac.visit(tree)
         errors["contextual"] = ac.errores
-
+        errors["typeErrors"] = ac.typeErrors
 
     print(json.dumps(errors))
 

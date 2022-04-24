@@ -55,16 +55,16 @@ def serializedATN():
         buf.write("]^\3\2\2\2^`\5\n\6\2_a\7\b\2\2`_\3\2\2\2`a\3\2\2\2ab\3")
         buf.write("\2\2\2bc\7\26\2\2cd\5\32\16\2de\7\4\2\2ef\5\b\5\2fx\3")
         buf.write("\2\2\2gh\7)\2\2hi\7\t\2\2ij\5\n\6\2jk\7*\2\2kx\3\2\2\2")
-        buf.write("lm\5 \21\2mo\7\7\2\2np\5\32\16\2on\3\2\2\2op\3\2\2\2p")
-        buf.write("q\3\2\2\2qr\7\b\2\2rs\7*\2\2sx\3\2\2\2tu\5\32\16\2uv\7")
-        buf.write("*\2\2vx\3\2\2\2w(\3\2\2\2w\60\3\2\2\2w?\3\2\2\2wI\3\2")
-        buf.write("\2\2wO\3\2\2\2wZ\3\2\2\2wg\3\2\2\2wl\3\2\2\2wt\3\2\2\2")
-        buf.write("x\5\3\2\2\2y{\7)\2\2zy\3\2\2\2z{\3\2\2\2{\u0085\3\2\2")
-        buf.write("\2|\u0081\7)\2\2}~\7\3\2\2~\u0080\7)\2\2\177}\3\2\2\2")
-        buf.write("\u0080\u0083\3\2\2\2\u0081\177\3\2\2\2\u0081\u0082\3\2")
-        buf.write("\2\2\u0082\u0085\3\2\2\2\u0083\u0081\3\2\2\2\u0084z\3")
-        buf.write("\2\2\2\u0084|\3\2\2\2\u0085\7\3\2\2\2\u0086\u0088\7-\2")
-        buf.write("\2\u0087\u0089\5\4\3\2\u0088\u0087\3\2\2\2\u0089\u008a")
+        buf.write("lm\5\34\17\2mo\7\7\2\2np\5\32\16\2on\3\2\2\2op\3\2\2\2")
+        buf.write("pq\3\2\2\2qr\7\b\2\2rs\7*\2\2sx\3\2\2\2tu\5\32\16\2uv")
+        buf.write("\7*\2\2vx\3\2\2\2w(\3\2\2\2w\60\3\2\2\2w?\3\2\2\2wI\3")
+        buf.write("\2\2\2wO\3\2\2\2wZ\3\2\2\2wg\3\2\2\2wl\3\2\2\2wt\3\2\2")
+        buf.write("\2x\5\3\2\2\2y{\7)\2\2zy\3\2\2\2z{\3\2\2\2{\u0085\3\2")
+        buf.write("\2\2|\u0081\7)\2\2}~\7\3\2\2~\u0080\7)\2\2\177}\3\2\2")
+        buf.write("\2\u0080\u0083\3\2\2\2\u0081\177\3\2\2\2\u0081\u0082\3")
+        buf.write("\2\2\2\u0082\u0085\3\2\2\2\u0083\u0081\3\2\2\2\u0084z")
+        buf.write("\3\2\2\2\u0084|\3\2\2\2\u0085\7\3\2\2\2\u0086\u0088\7")
+        buf.write("-\2\2\u0087\u0089\5\4\3\2\u0088\u0087\3\2\2\2\u0089\u008a")
         buf.write("\3\2\2\2\u008a\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b")
         buf.write("\u008c\3\2\2\2\u008c\u008d\7.\2\2\u008d\t\3\2\2\2\u008e")
         buf.write("\u008f\5\16\b\2\u008f\u0090\5\f\7\2\u0090\13\3\2\2\2\u0091")
@@ -437,8 +437,8 @@ class miParserParser ( Parser ):
             super().__init__(parser)
             self.copyFrom(ctx)
 
-        def ident(self):
-            return self.getTypedRuleContext(miParserParser.IdentContext,0)
+        def primitiveExpression(self):
+            return self.getTypedRuleContext(miParserParser.PrimitiveExpressionContext,0)
 
         def LEFTP(self):
             return self.getToken(miParserParser.LEFTP, 0)
@@ -728,7 +728,7 @@ class miParserParser ( Parser ):
                 localctx = miParserParser.FunctionCallStatementContext(self, localctx)
                 self.enterOuterAlt(localctx, 8)
                 self.state = 106
-                self.ident()
+                self.primitiveExpression()
                 self.state = 107
                 self.match(miParserParser.LEFTP)
                 self.state = 109

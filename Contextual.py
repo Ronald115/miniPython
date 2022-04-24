@@ -9,6 +9,7 @@ class Contextual(miParserVisitor):
 
     def __init__(self):
         self.errores = []
+        self.typeErrors = []
         self.ts = TablaSimbolos()
         self.ts.openScope()
         self.tm = TablaMetodos()
@@ -69,8 +70,11 @@ class Contextual(miParserVisitor):
         params = 0
         if ctx.expressionList():
             params = self.visit(ctx.expressionList())
-        self.visitIdentMet(ctx.ident(), params)
-
+        pe = self.visit(ctx.primitiveExpression())
+        if pe == "ident":
+            self.visitIdentMet(ctx.primitiveExpression().ident(), params)
+        else:
+            self.typeErrors.append({"type": pe, "call": True})
 
     # Visit a parse tree #expressionStatement.
     def visitExpressionStatement(self, ctx: miParserParser.ExpressionStatementContext):
@@ -130,13 +134,19 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #elementExpressionAST.
     def visitElementExpressionAST(self, ctx: miParserParser.ElementExpressionASTContext):
-        self.visit(ctx.primitiveExpression())
-        self.visit(ctx.elementAccess())
+        ident = self.visit(ctx.primitiveExpression())
+        self.visitElementAccess(ctx.elementAccess(), ident)
 
     # Visit a parse tree #elementAccessAST.
-    def visitElementAccessAST(self, ctx: miParserParser.ElementAccessASTContext):
-        for i in range(0, len(ctx.expression())):
-            self.visit(ctx.expression(i))
+    def visitElementAccess(self, ctx: miParserParser.ElementAccessASTContext, ident):
+        if len(ctx.expression()) != 0:
+            if type(ident) == 'Identificador':
+                for i in range(0, len(ctx.expression())):
+                    self.visit(ctx.expression(i))
+            else:
+                self.typeErrors.append({"type": ident, "call": False})
+
+
 
     # Visit a parse tree #expressionListAST.
     def visitExpressionListAST(self, ctx: miParserParser.ExpressionListASTContext):
@@ -148,38 +158,39 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #integerPE.
     def visitIntegerPE(self, ctx: miParserParser.IntegerPEContext):
-        pass
+        return "int"
 
     # Visit a parse tree #floatPE.
     def visitFloatPE(self, ctx: miParserParser.FloatPEContext):
-        pass
+        return 'float'
 
     # Visit a parse tree #charPE.
     def visitCharPE(self, ctx: miParserParser.CharPEContext):
-        pass
+        return 'char'
 
     # Visit a parse tree #stringPE.
     def visitStringPE(self, ctx: miParserParser.StringPEContext):
-        pass
+        return 'str'
 
     # Visit a parse tree #identifierPE.
     def visitIdentifierPE(self, ctx: miParserParser.IdentifierPEContext):
-        ident = self.visit(ctx.ident())
-        return ident
+        self.visit(ctx.ident())
+        return "ident"
 
     # Visit a parse tree #expressPE.
     def visitExpressPE(self, ctx: miParserParser.ExpressPEContext):
         self.visit(ctx.expression())
+        return 'expression'
 
     # Visit a parse tree #listExPE.
     def visitListExPE(self, ctx: miParserParser.ListExPEContext):
         self.visit(ctx.listExpression())
+        return 'listExpressions'
 
     # Visit a parse tree #lenPE.
     def visitLenPE(self, ctx: miParserParser.LenPEContext):
-        # LEN LEFTP
         self.visit(ctx.expression())
-        # RIGHTP
+        return "int"
 
     # Visit a parse tree #listExpressionAST.
     def visitListExpressionAST(self, ctx: miParserParser.ListExpressionASTContext):
@@ -191,7 +202,6 @@ class Contextual(miParserVisitor):
         if not ident:
             self.errores.append({"ident": ctx.ID().getText(), "requiredParams": None, "givenParams": None, "found": None, "args": None})
 
-        return ident
 
 
     def visitIdentMet(self, ctx: miParserParser.IdentContext, params):
