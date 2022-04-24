@@ -34,14 +34,10 @@ app.post('/compiler', (req,res) => {
         }
         
         PythonShell.run('main.py', options, (err, results) => {
-            if (!err){
-                 // results is an array consisting of messages collected during execution
-                data = JSON.parse(results[0]);
-                res.send(data);
-            }else{
-                console.log(`PythonShell run error: ${err}`);
-            }
-           
+            if (err) throw err;
+            // results is an array consisting of messages collected during execution
+            data = JSON.parse(results[0])
+            res.send(data)
         });
     
     }); 
