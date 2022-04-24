@@ -28,6 +28,21 @@ class TablaMetodos(Tablas):
         else:
             self.buscar(id.text).setArgs(args)
 
+    def buscar(self, nombre, params):
+        temp = None
+        requiredParams = 0
+        found = False
+        args = []
+        for i in range(0, len(self.tabla)):
+            if self.tabla[i].tok.text == nombre:
+                requiredParams = len(self.tabla[i].args)
+                args = self.tabla[i].getArgs()
+                found = True
+                if requiredParams == params:
+                    temp = self.tabla[i]
+                    break
+        return temp, requiredParams, found, args
+
     def imprimir(self):
         print("----- INICIO TABLA METODOS ------")
         for i in range(0, len(self.tabla)):

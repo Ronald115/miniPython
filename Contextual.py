@@ -4,9 +4,11 @@ from generated.miParserParser import miParserParser
 from TablaSimbolos import TablaSimbolos
 from TablaMetodos import TablaMetodos
 
+
 class Contextual(miParserVisitor):
 
     def __init__(self):
+        self.errores = []
         self.ts = TablaSimbolos()
         self.ts.openScope()
         self.tm = TablaMetodos()
@@ -64,12 +66,12 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #functionCallStatement.
     def visitFunctionCallStatement(self, ctx: miParserParser.FunctionCallStatementContext):
-        ident = self.visitIdentMet(ctx.ident())
-        if ident:
-            if ctx.expressionList():
-                self.visit(ctx.expressionList())
-        else:
-            print(f"EL IDENTIFICADOR '{ctx.ident().getText()}' NO ESTA DEFINIDO")
+        params = 0
+        if ctx.expressionList():
+            params = self.visit(ctx.expressionList())
+        self.visitIdentMet(ctx.ident(), params)
+
+
     # Visit a parse tree #expressionStatement.
     def visitExpressionStatement(self, ctx: miParserParser.ExpressionStatementContext):
         self.visit(ctx.expressionList())
@@ -141,7 +143,8 @@ class Contextual(miParserVisitor):
         self.visit(ctx.expression(0))
         for i in range(1, len(ctx.expression())):
             self.visit(ctx.expression(i))
-        return None
+
+        return len(ctx.expression())
 
     # Visit a parse tree #integerPE.
     def visitIntegerPE(self, ctx: miParserParser.IntegerPEContext):
@@ -162,10 +165,6 @@ class Contextual(miParserVisitor):
     # Visit a parse tree #identifierPE.
     def visitIdentifierPE(self, ctx: miParserParser.IdentifierPEContext):
         ident = self.visit(ctx.ident())
-        if ident:
-            print(f"El IDENTIFICADOR '{ctx.ident().ID()}' EXISTE")
-        else:
-            print(f"EL IDENTIFICADOR '{ctx.ident().ID()}' NO EXISTE")
         return ident
 
     # Visit a parse tree #expressPE.
@@ -188,11 +187,19 @@ class Contextual(miParserVisitor):
         return None
     # Visit a parse tree produced by miParserParser#ident.
     def visitIdentAST(self, ctx: miParserParser.IdentContext):
-        return self.ts.buscar(ctx.ID().getText())
+        ident = self.ts.buscar(ctx.ID().getText())
+        if not ident:
+            self.errores.append({"ident": ctx.ID().getText(), "requiredParams": None, "givenParams": None, "found": None, "args": None})
 
-    def visitIdentMet(self, ctx: miParserParser.IdentContext):
-        return self.tm.buscar(ctx.ID().getText())
+        return ident
 
+
+    def visitIdentMet(self, ctx: miParserParser.IdentContext, params):
+        ident, requiredParams, found, args = self.tm.buscar(ctx.ID().getText(), params)
+        if not ident:
+            self.errores.append({"ident": ctx.ID().getText(), "requiredParams": requiredParams, "givenParams": params, "found": found, "args": args})
+
+        return ident
 
     def imprimir(self):
         self.ts.imprimir()

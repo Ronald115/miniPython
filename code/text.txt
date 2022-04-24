@@ -1,15 +1,4 @@
-x = 1
+def a(w,x,y,z):
+    print(x)
 
-
-
-def b():
-    print("B 0")
-
-a()
-
-def a():
-    def b():
-        print("B 1")
-    def b(a):
-        print("B 2")
-
+a(1)

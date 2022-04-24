@@ -1,18 +1,20 @@
 
+from distutils.log import error
 import json
 import sys
 
-from Contextual import Contextual
 
 sys.path.append("./generated")
 
 from generated.miParserLexer import miParserLexer
 from generated.miParserParser import miParserParser
+
 from antlr4 import *
 from antlr4.error.ErrorListener import ErrorListener
+from Contextual import Contextual
 
 
-errors = {"parser": [], "lexer": []}
+errors = {"parser": [], "lexer": [], "contextual": []}
 
 
 class ParserErrorListener(ErrorListener):
@@ -41,10 +43,20 @@ if __name__ == "__main__":
     parser.removeErrorListeners()
     parserErrorListener = ParserErrorListener()
     parser.addErrorListener(parserErrorListener)
+    
     tree = parser.program()
 
-    ac = Contextual()
-    ac.visit(tree)
+
+    if len(errors['lexer']) == 0 and len(errors['parser']) == 0:
+        ac = Contextual()
+        ac.visit(tree)
+        errors["contextual"] = ac.errores
+
+
     print(json.dumps(errors))
 
 
+"""
+
+        
+"""
