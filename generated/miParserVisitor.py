@@ -144,6 +144,11 @@ class miParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by miParserParser#callPE.
+    def visitCallPE(self, ctx:miParserParser.CallPEContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by miParserParser#expressPE.
     def visitExpressPE(self, ctx:miParserParser.ExpressPEContext):
         return self.visitChildren(ctx)

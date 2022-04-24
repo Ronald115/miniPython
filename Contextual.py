@@ -22,11 +22,11 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #defStatement.
     def visitDefStatement(self, ctx: miParserParser.DefStatementContext):
-        args = self.visit(ctx.argList())
+        args, argsCtx = self.visit(ctx.argList())
         self.tm.insertar(ctx.ID().getSymbol(), ctx, args)
-
         self.ts.openScope()
         self.tm.openScope()
+        self.insertarArgs(args,argsCtx)
         self.visit(ctx.sequence())
 
         self.ts.closeScope()
@@ -81,21 +81,25 @@ class Contextual(miParserVisitor):
         self.visit(ctx.expressionList())
 
     # Visit a parse tree #argument.
+
+    def insertarArgs(self, args, ctx):
+        for a in args:
+            self.ts.insertar(a.getSymbol(), ctx)
+
     def visitArgument(self, ctx: miParserParser.ArgumentContext):
         arg = []
         if ctx.ID():
-            self.ts.insertar(ctx.ID().getSymbol(), ctx)
             arg.append(ctx.ID())
-        return arg
+        return arg, ctx
 
     # Visit a parse tree #argumentsList.
     def visitArgumentsList(self, ctx: miParserParser.ArgumentsListContext):
         args = [ctx.ID(0)]
-        self.ts.insertar(ctx.ID(0).getSymbol(), ctx)
+        #self.ts.insertar(ctx.ID(0).getSymbol(), ctx)
         for i in range(1, len(ctx.ID())):
-            self.ts.insertar(ctx.ID(i).getSymbol(), ctx)
+            #self.ts.insertar(ctx.ID(i).getSymbol(), ctx)
             args.append(ctx.ID(i))
-        return args
+        return args, ctx
 
     # Visit a parse tree #sequenceAST.
     def visitSequenceAST(self, ctx: miParserParser.SequenceASTContext):
@@ -134,19 +138,19 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #elementExpressionAST.
     def visitElementExpressionAST(self, ctx: miParserParser.ElementExpressionASTContext):
-        ident = self.visit(ctx.primitiveExpression())
-        self.visitElementAccess(ctx.elementAccess(), ident)
+        pe = self.visit(ctx.primitiveExpression())
+        if pe == "ident":
+            self.visit(ctx.primitiveExpression().ident())
+        self.visitElementAccess(ctx.elementAccess(), pe)
 
     # Visit a parse tree #elementAccessAST.
     def visitElementAccess(self, ctx: miParserParser.ElementAccessASTContext, ident):
         if len(ctx.expression()) != 0:
-            if type(ident) == 'Identificador':
+            if ident == 'ident':
                 for i in range(0, len(ctx.expression())):
                     self.visit(ctx.expression(i))
             else:
                 self.typeErrors.append({"type": ident, "call": False})
-
-
 
     # Visit a parse tree #expressionListAST.
     def visitExpressionListAST(self, ctx: miParserParser.ExpressionListASTContext):
@@ -174,12 +178,19 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #identifierPE.
     def visitIdentifierPE(self, ctx: miParserParser.IdentifierPEContext):
-        self.visit(ctx.ident())
         return "ident"
+
+    # Visit a parse tree produced by miParserParser#callPE.
+    def visitCallPE(self, ctx:miParserParser.CallPEContext):
+        params = 0
+        if ctx.expressionList():
+            params = self.visit(ctx.expressionList())
+        self.visitIdentMet(ctx.ident(), params)
+        return "call"
 
     # Visit a parse tree #expressPE.
     def visitExpressPE(self, ctx: miParserParser.ExpressPEContext):
-        self.visit(ctx.expression())
+        self.visit(ctx.expressionList())
         return 'expression'
 
     # Visit a parse tree #listExPE.
@@ -194,15 +205,14 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #listExpressionAST.
     def visitListExpressionAST(self, ctx: miParserParser.ListExpressionASTContext):
-        self.visit(ctx.expressionList())
-        return None
+        if ctx.expressionList():
+            self.visit(ctx.expressionList())
+
     # Visit a parse tree produced by miParserParser#ident.
     def visitIdentAST(self, ctx: miParserParser.IdentContext):
         ident = self.ts.buscar(ctx.ID().getText())
         if not ident:
             self.errores.append({"ident": ctx.ID().getText(), "requiredParams": None, "givenParams": None, "found": None, "args": None})
-
-
 
     def visitIdentMet(self, ctx: miParserParser.IdentContext, params):
         ident, requiredParams, found, args = self.tm.buscar(ctx.ID().getText(), params)

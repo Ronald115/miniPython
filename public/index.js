@@ -10,14 +10,22 @@ codeEditor.addEventListener('scroll', () => {
 });
 
 codeEditor.addEventListener('keydown', (e) => {
-    let { keyCode } = e;
-    let { value, selectionStart, selectionEnd } = codeEditor;
-if (keyCode === 9) {  // TAB = 9
-      e.preventDefault();
-      codeEditor.value = value.slice(0, selectionStart) + '\t' + value.slice(selectionEnd);
-      codeEditor.setSelectionRange(selectionStart+2, selectionStart+2)
+    if (e.key === 'Tab'){
+        e.preventDefault();
+        var start = codeEditor.selectionStart;
+        var end = codeEditor.selectionEnd;
+    
+        // set textarea value to: text before caret + tab + text after caret
+        codeEditor.value = codeEditor.value.substring(0, start) +
+          "    " + codeEditor.value.substring(end);
+    
+        // put caret at right position again
+        codeEditor.selectionStart = codeEditor.selectionEnd = start + 1;
     }
-});
+})
+
+
+
 
 var lineCountCache = 0;
 function line_counter() {
@@ -36,7 +44,7 @@ codeEditor.addEventListener('input', () => {
 });
 
 compile.addEventListener('click', async ()=>{
-    var code = document.querySelector(".codeTA")
+    var code = document.querySelector("#code")
     dataToSend = {"code" : code.value}
     const response = await fetch("http://localhost:3000/compiler", {
     method: 'POST',
@@ -83,10 +91,10 @@ compile.addEventListener('click', async ()=>{
                 console.log(e);
 
                 if (!e.found){
-                    resultLog = resultLog + `CONTEXTUAL ERROR: name '${e.ident}' is not defined\n`
+                    resultLog = resultLog + `Name Error: name '${e.ident}' is not defined\n`
                 }else{
                     if (e.requiredParams > e.givenParams){
-                        resultLog = resultLog + `CONTEXTUAL ERROR: ${e.ident}() missing ${e.requiredParams - e.givenParams} required positional `
+                        resultLog = resultLog + `Type Error: ${e.ident}() missing ${e.requiredParams - e.givenParams} required positional `
                         
                         if (e.requiredParams - e.givenParams > 1){
                             resultLog = resultLog + `arguments: `
@@ -136,6 +144,7 @@ compile.addEventListener('click', async ()=>{
             successful = false
         }
     
+        console.log("Entro aca");
         result.classList.remove("redText")
         result.classList.remove("greenText")
         
@@ -165,9 +174,7 @@ fileButton.addEventListener('click', () => {
             var reader = new FileReader();
             reader.readAsText(file, "UTF-8");
             reader.onload =  (evt) => {
-                let codeTA = document.querySelector(".codeTA")
-                console.log(codeTA.innerHTML);
-                code.innerHTML = evt.target.result;
+                codeEditor.value = evt.target.result;
                 console.log(evt.target.result);
             }
             reader.onerror = _ => {
@@ -179,4 +186,3 @@ fileButton.addEventListener('click', () => {
     };
     input.click();
 })
-

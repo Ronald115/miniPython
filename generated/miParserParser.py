@@ -12,7 +12,7 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3.")
-        buf.write("\u00de\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u00e7\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\3\2\7\2$\n\2\f\2\16")
         buf.write("\2\'\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3")
@@ -30,40 +30,41 @@ def serializedATN():
         buf.write("\f\3\r\3\r\3\r\3\r\7\r\u00b4\n\r\f\r\16\r\u00b7\13\r\3")
         buf.write("\16\3\16\3\16\7\16\u00bc\n\16\f\16\16\16\u00bf\13\16\3")
         buf.write("\17\5\17\u00c2\n\17\3\17\3\17\5\17\u00c6\n\17\3\17\3\17")
-        buf.write("\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17")
-        buf.write("\3\17\5\17\u00d6\n\17\3\20\3\20\3\20\3\20\3\21\3\21\3")
-        buf.write("\21\2\2\22\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \2\5")
-        buf.write("\3\2\35!\3\2\30\31\3\2\32\33\2\u00f2\2%\3\2\2\2\4w\3\2")
-        buf.write("\2\2\6\u0084\3\2\2\2\b\u0086\3\2\2\2\n\u008e\3\2\2\2\f")
-        buf.write("\u0095\3\2\2\2\16\u0098\3\2\2\2\20\u009f\3\2\2\2\22\u00a2")
-        buf.write("\3\2\2\2\24\u00a9\3\2\2\2\26\u00ac\3\2\2\2\30\u00b5\3")
-        buf.write("\2\2\2\32\u00b8\3\2\2\2\34\u00d5\3\2\2\2\36\u00d7\3\2")
-        buf.write("\2\2 \u00db\3\2\2\2\"$\5\4\3\2#\"\3\2\2\2$\'\3\2\2\2%")
-        buf.write("#\3\2\2\2%&\3\2\2\2&\3\3\2\2\2\'%\3\2\2\2()\7\27\2\2)")
-        buf.write("*\7)\2\2*+\7\7\2\2+,\5\6\4\2,-\7\b\2\2-.\7\4\2\2./\5\b")
-        buf.write("\5\2/x\3\2\2\2\60\62\7\r\2\2\61\63\7\7\2\2\62\61\3\2\2")
-        buf.write("\2\62\63\3\2\2\2\63\64\3\2\2\2\64\66\5\n\6\2\65\67\7\b")
-        buf.write("\2\2\66\65\3\2\2\2\66\67\3\2\2\2\678\3\2\2\289\7\4\2\2")
-        buf.write("9=\5\b\5\2:;\7\16\2\2;<\7\4\2\2<>\5\b\5\2=:\3\2\2\2=>")
-        buf.write("\3\2\2\2>x\3\2\2\2?A\7\23\2\2@B\7\7\2\2A@\3\2\2\2AB\3")
-        buf.write("\2\2\2BC\3\2\2\2CE\5\n\6\2DF\7\b\2\2ED\3\2\2\2EF\3\2\2")
-        buf.write("\2FG\3\2\2\2GH\7*\2\2Hx\3\2\2\2IJ\7\24\2\2JK\7\7\2\2K")
-        buf.write("L\5\n\6\2LM\7\b\2\2MN\7*\2\2Nx\3\2\2\2OQ\7\20\2\2PR\7")
-        buf.write("\7\2\2QP\3\2\2\2QR\3\2\2\2RS\3\2\2\2SU\5\n\6\2TV\7\b\2")
-        buf.write("\2UT\3\2\2\2UV\3\2\2\2VW\3\2\2\2WX\7\4\2\2XY\5\b\5\2Y")
-        buf.write("x\3\2\2\2Z\\\7\22\2\2[]\7\7\2\2\\[\3\2\2\2\\]\3\2\2\2")
-        buf.write("]^\3\2\2\2^`\5\n\6\2_a\7\b\2\2`_\3\2\2\2`a\3\2\2\2ab\3")
-        buf.write("\2\2\2bc\7\26\2\2cd\5\32\16\2de\7\4\2\2ef\5\b\5\2fx\3")
-        buf.write("\2\2\2gh\7)\2\2hi\7\t\2\2ij\5\n\6\2jk\7*\2\2kx\3\2\2\2")
-        buf.write("lm\5\34\17\2mo\7\7\2\2np\5\32\16\2on\3\2\2\2op\3\2\2\2")
-        buf.write("pq\3\2\2\2qr\7\b\2\2rs\7*\2\2sx\3\2\2\2tu\5\32\16\2uv")
-        buf.write("\7*\2\2vx\3\2\2\2w(\3\2\2\2w\60\3\2\2\2w?\3\2\2\2wI\3")
-        buf.write("\2\2\2wO\3\2\2\2wZ\3\2\2\2wg\3\2\2\2wl\3\2\2\2wt\3\2\2")
-        buf.write("\2x\5\3\2\2\2y{\7)\2\2zy\3\2\2\2z{\3\2\2\2{\u0085\3\2")
-        buf.write("\2\2|\u0081\7)\2\2}~\7\3\2\2~\u0080\7)\2\2\177}\3\2\2")
-        buf.write("\2\u0080\u0083\3\2\2\2\u0081\177\3\2\2\2\u0081\u0082\3")
-        buf.write("\2\2\2\u0082\u0085\3\2\2\2\u0083\u0081\3\2\2\2\u0084z")
-        buf.write("\3\2\2\2\u0084|\3\2\2\2\u0085\7\3\2\2\2\u0086\u0088\7")
+        buf.write("\3\17\3\17\3\17\3\17\3\17\5\17\u00cf\n\17\3\17\3\17\3")
+        buf.write("\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\5\17")
+        buf.write("\u00dd\n\17\3\20\3\20\5\20\u00e1\n\20\3\20\3\20\3\21\3")
+        buf.write("\21\3\21\2\2\22\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36")
+        buf.write(" \2\5\3\2\35!\3\2\30\31\3\2\32\33\2\u00fe\2%\3\2\2\2\4")
+        buf.write("w\3\2\2\2\6\u0084\3\2\2\2\b\u0086\3\2\2\2\n\u008e\3\2")
+        buf.write("\2\2\f\u0095\3\2\2\2\16\u0098\3\2\2\2\20\u009f\3\2\2\2")
+        buf.write("\22\u00a2\3\2\2\2\24\u00a9\3\2\2\2\26\u00ac\3\2\2\2\30")
+        buf.write("\u00b5\3\2\2\2\32\u00b8\3\2\2\2\34\u00dc\3\2\2\2\36\u00de")
+        buf.write("\3\2\2\2 \u00e4\3\2\2\2\"$\5\4\3\2#\"\3\2\2\2$\'\3\2\2")
+        buf.write("\2%#\3\2\2\2%&\3\2\2\2&\3\3\2\2\2\'%\3\2\2\2()\7\27\2")
+        buf.write("\2)*\7)\2\2*+\7\7\2\2+,\5\6\4\2,-\7\b\2\2-.\7\4\2\2./")
+        buf.write("\5\b\5\2/x\3\2\2\2\60\62\7\r\2\2\61\63\7\7\2\2\62\61\3")
+        buf.write("\2\2\2\62\63\3\2\2\2\63\64\3\2\2\2\64\66\5\n\6\2\65\67")
+        buf.write("\7\b\2\2\66\65\3\2\2\2\66\67\3\2\2\2\678\3\2\2\289\7\4")
+        buf.write("\2\29=\5\b\5\2:;\7\16\2\2;<\7\4\2\2<>\5\b\5\2=:\3\2\2")
+        buf.write("\2=>\3\2\2\2>x\3\2\2\2?A\7\23\2\2@B\7\7\2\2A@\3\2\2\2")
+        buf.write("AB\3\2\2\2BC\3\2\2\2CE\5\n\6\2DF\7\b\2\2ED\3\2\2\2EF\3")
+        buf.write("\2\2\2FG\3\2\2\2GH\7*\2\2Hx\3\2\2\2IJ\7\24\2\2JK\7\7\2")
+        buf.write("\2KL\5\n\6\2LM\7\b\2\2MN\7*\2\2Nx\3\2\2\2OQ\7\20\2\2P")
+        buf.write("R\7\7\2\2QP\3\2\2\2QR\3\2\2\2RS\3\2\2\2SU\5\n\6\2TV\7")
+        buf.write("\b\2\2UT\3\2\2\2UV\3\2\2\2VW\3\2\2\2WX\7\4\2\2XY\5\b\5")
+        buf.write("\2Yx\3\2\2\2Z\\\7\22\2\2[]\7\7\2\2\\[\3\2\2\2\\]\3\2\2")
+        buf.write("\2]^\3\2\2\2^`\5\n\6\2_a\7\b\2\2`_\3\2\2\2`a\3\2\2\2a")
+        buf.write("b\3\2\2\2bc\7\26\2\2cd\5\32\16\2de\7\4\2\2ef\5\b\5\2f")
+        buf.write("x\3\2\2\2gh\7)\2\2hi\7\t\2\2ij\5\n\6\2jk\7*\2\2kx\3\2")
+        buf.write("\2\2lm\5\34\17\2mo\7\7\2\2np\5\32\16\2on\3\2\2\2op\3\2")
+        buf.write("\2\2pq\3\2\2\2qr\7\b\2\2rs\7*\2\2sx\3\2\2\2tu\5\32\16")
+        buf.write("\2uv\7*\2\2vx\3\2\2\2w(\3\2\2\2w\60\3\2\2\2w?\3\2\2\2")
+        buf.write("wI\3\2\2\2wO\3\2\2\2wZ\3\2\2\2wg\3\2\2\2wl\3\2\2\2wt\3")
+        buf.write("\2\2\2x\5\3\2\2\2y{\7)\2\2zy\3\2\2\2z{\3\2\2\2{\u0085")
+        buf.write("\3\2\2\2|\u0081\7)\2\2}~\7\3\2\2~\u0080\7)\2\2\177}\3")
+        buf.write("\2\2\2\u0080\u0083\3\2\2\2\u0081\177\3\2\2\2\u0081\u0082")
+        buf.write("\3\2\2\2\u0082\u0085\3\2\2\2\u0083\u0081\3\2\2\2\u0084")
+        buf.write("z\3\2\2\2\u0084|\3\2\2\2\u0085\7\3\2\2\2\u0086\u0088\7")
         buf.write("-\2\2\u0087\u0089\5\4\3\2\u0088\u0087\3\2\2\2\u0089\u008a")
         buf.write("\3\2\2\2\u008a\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b")
         buf.write("\u008c\3\2\2\2\u008c\u008d\7.\2\2\u008d\t\3\2\2\2\u008e")
@@ -88,21 +89,25 @@ def serializedATN():
         buf.write("\u00bc\u00bf\3\2\2\2\u00bd\u00bb\3\2\2\2\u00bd\u00be\3")
         buf.write("\2\2\2\u00be\33\3\2\2\2\u00bf\u00bd\3\2\2\2\u00c0\u00c2")
         buf.write("\7\31\2\2\u00c1\u00c0\3\2\2\2\u00c1\u00c2\3\2\2\2\u00c2")
-        buf.write("\u00c3\3\2\2\2\u00c3\u00d6\7(\2\2\u00c4\u00c6\7\31\2\2")
+        buf.write("\u00c3\3\2\2\2\u00c3\u00dd\7(\2\2\u00c4\u00c6\7\31\2\2")
         buf.write("\u00c5\u00c4\3\2\2\2\u00c5\u00c6\3\2\2\2\u00c6\u00c7\3")
-        buf.write("\2\2\2\u00c7\u00d6\7%\2\2\u00c8\u00d6\7&\2\2\u00c9\u00d6")
-        buf.write("\7\'\2\2\u00ca\u00d6\5 \21\2\u00cb\u00cc\7\7\2\2\u00cc")
-        buf.write("\u00cd\5\n\6\2\u00cd\u00ce\7\b\2\2\u00ce\u00d6\3\2\2\2")
-        buf.write("\u00cf\u00d6\5\36\20\2\u00d0\u00d1\7\25\2\2\u00d1\u00d2")
-        buf.write("\7\7\2\2\u00d2\u00d3\5\n\6\2\u00d3\u00d4\7\b\2\2\u00d4")
-        buf.write("\u00d6\3\2\2\2\u00d5\u00c1\3\2\2\2\u00d5\u00c5\3\2\2\2")
-        buf.write("\u00d5\u00c8\3\2\2\2\u00d5\u00c9\3\2\2\2\u00d5\u00ca\3")
-        buf.write("\2\2\2\u00d5\u00cb\3\2\2\2\u00d5\u00cf\3\2\2\2\u00d5\u00d0")
-        buf.write("\3\2\2\2\u00d6\35\3\2\2\2\u00d7\u00d8\7\5\2\2\u00d8\u00d9")
-        buf.write("\5\32\16\2\u00d9\u00da\7\6\2\2\u00da\37\3\2\2\2\u00db")
-        buf.write("\u00dc\7)\2\2\u00dc!\3\2\2\2\32%\62\66=AEQU\\`owz\u0081")
-        buf.write("\u0084\u008a\u0095\u009f\u00a9\u00b5\u00bd\u00c1\u00c5")
-        buf.write("\u00d5")
+        buf.write("\2\2\2\u00c7\u00dd\7%\2\2\u00c8\u00dd\7&\2\2\u00c9\u00dd")
+        buf.write("\7\'\2\2\u00ca\u00dd\5 \21\2\u00cb\u00cc\5 \21\2\u00cc")
+        buf.write("\u00ce\7\7\2\2\u00cd\u00cf\5\32\16\2\u00ce\u00cd\3\2\2")
+        buf.write("\2\u00ce\u00cf\3\2\2\2\u00cf\u00d0\3\2\2\2\u00d0\u00d1")
+        buf.write("\7\b\2\2\u00d1\u00dd\3\2\2\2\u00d2\u00d3\7\7\2\2\u00d3")
+        buf.write("\u00d4\5\32\16\2\u00d4\u00d5\7\b\2\2\u00d5\u00dd\3\2\2")
+        buf.write("\2\u00d6\u00dd\5\36\20\2\u00d7\u00d8\7\25\2\2\u00d8\u00d9")
+        buf.write("\7\7\2\2\u00d9\u00da\5\n\6\2\u00da\u00db\7\b\2\2\u00db")
+        buf.write("\u00dd\3\2\2\2\u00dc\u00c1\3\2\2\2\u00dc\u00c5\3\2\2\2")
+        buf.write("\u00dc\u00c8\3\2\2\2\u00dc\u00c9\3\2\2\2\u00dc\u00ca\3")
+        buf.write("\2\2\2\u00dc\u00cb\3\2\2\2\u00dc\u00d2\3\2\2\2\u00dc\u00d6")
+        buf.write("\3\2\2\2\u00dc\u00d7\3\2\2\2\u00dd\35\3\2\2\2\u00de\u00e0")
+        buf.write("\7\5\2\2\u00df\u00e1\5\32\16\2\u00e0\u00df\3\2\2\2\u00e0")
+        buf.write("\u00e1\3\2\2\2\u00e1\u00e2\3\2\2\2\u00e2\u00e3\7\6\2\2")
+        buf.write("\u00e3\37\3\2\2\2\u00e4\u00e5\7)\2\2\u00e5!\3\2\2\2\34")
+        buf.write("%\62\66=AEQU\\`owz\u0081\u0084\u008a\u0095\u009f\u00a9")
+        buf.write("\u00b5\u00bd\u00c1\u00c5\u00ce\u00dc\u00e0")
         return buf.getvalue()
 
 
@@ -1637,8 +1642,8 @@ class miParserParser ( Parser ):
 
         def LEFTP(self):
             return self.getToken(miParserParser.LEFTP, 0)
-        def expression(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
+        def expressionList(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
 
         def RIGHTP(self):
             return self.getToken(miParserParser.RIGHTP, 0)
@@ -1681,6 +1686,30 @@ class miParserParser ( Parser ):
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitIntegerPE" ):
                 return visitor.visitIntegerPE(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class CallPEContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def ident(self):
+            return self.getTypedRuleContext(miParserParser.IdentContext,0)
+
+        def LEFTP(self):
+            return self.getToken(miParserParser.LEFTP, 0)
+        def RIGHTP(self):
+            return self.getToken(miParserParser.RIGHTP, 0)
+        def expressionList(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCallPE" ):
+                return visitor.visitCallPE(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -1764,9 +1793,9 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 26, self.RULE_primitiveExpression)
         self._la = 0 # Token type
         try:
-            self.state = 211
+            self.state = 218
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,23,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,24,self._ctx)
             if la_ == 1:
                 localctx = miParserParser.IntegerPEContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
@@ -1819,33 +1848,53 @@ class miParserParser ( Parser ):
                 pass
 
             elif la_ == 6:
-                localctx = miParserParser.ExpressPEContext(self, localctx)
+                localctx = miParserParser.CallPEContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
                 self.state = 201
-                self.match(miParserParser.LEFTP)
+                self.ident()
+
                 self.state = 202
-                self.expression()
-                self.state = 203
+                self.match(miParserParser.LEFTP)
+                self.state = 204
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << miParserParser.LEFTSQUARE) | (1 << miParserParser.LEFTP) | (1 << miParserParser.LEN) | (1 << miParserParser.SUB) | (1 << miParserParser.FLOAT) | (1 << miParserParser.CHAR) | (1 << miParserParser.STRING) | (1 << miParserParser.NUM) | (1 << miParserParser.ID))) != 0):
+                    self.state = 203
+                    self.expressionList()
+
+
+                self.state = 206
                 self.match(miParserParser.RIGHTP)
                 pass
 
             elif la_ == 7:
-                localctx = miParserParser.ListExPEContext(self, localctx)
+                localctx = miParserParser.ExpressPEContext(self, localctx)
                 self.enterOuterAlt(localctx, 7)
-                self.state = 205
-                self.listExpression()
+                self.state = 208
+                self.match(miParserParser.LEFTP)
+                self.state = 209
+                self.expressionList()
+                self.state = 210
+                self.match(miParserParser.RIGHTP)
                 pass
 
             elif la_ == 8:
-                localctx = miParserParser.LenPEContext(self, localctx)
+                localctx = miParserParser.ListExPEContext(self, localctx)
                 self.enterOuterAlt(localctx, 8)
-                self.state = 206
+                self.state = 212
+                self.listExpression()
+                pass
+
+            elif la_ == 9:
+                localctx = miParserParser.LenPEContext(self, localctx)
+                self.enterOuterAlt(localctx, 9)
+                self.state = 213
                 self.match(miParserParser.LEN)
-                self.state = 207
+                self.state = 214
                 self.match(miParserParser.LEFTP)
-                self.state = 208
+                self.state = 215
                 self.expression()
-                self.state = 209
+                self.state = 216
                 self.match(miParserParser.RIGHTP)
                 pass
 
@@ -1884,11 +1933,11 @@ class miParserParser ( Parser ):
 
         def LEFTSQUARE(self):
             return self.getToken(miParserParser.LEFTSQUARE, 0)
+        def RIGHTSQUARE(self):
+            return self.getToken(miParserParser.RIGHTSQUARE, 0)
         def expressionList(self):
             return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
 
-        def RIGHTSQUARE(self):
-            return self.getToken(miParserParser.RIGHTSQUARE, 0)
 
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitListExpressionAST" ):
@@ -1902,14 +1951,21 @@ class miParserParser ( Parser ):
 
         localctx = miParserParser.ListExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 28, self.RULE_listExpression)
+        self._la = 0 # Token type
         try:
             localctx = miParserParser.ListExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 213
+            self.state = 220
             self.match(miParserParser.LEFTSQUARE)
-            self.state = 214
-            self.expressionList()
-            self.state = 215
+            self.state = 222
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << miParserParser.LEFTSQUARE) | (1 << miParserParser.LEFTP) | (1 << miParserParser.LEN) | (1 << miParserParser.SUB) | (1 << miParserParser.FLOAT) | (1 << miParserParser.CHAR) | (1 << miParserParser.STRING) | (1 << miParserParser.NUM) | (1 << miParserParser.ID))) != 0):
+                self.state = 221
+                self.expressionList()
+
+
+            self.state = 224
             self.match(miParserParser.RIGHTSQUARE)
         except RecognitionException as re:
             localctx.exception = re
@@ -1961,7 +2017,7 @@ class miParserParser ( Parser ):
         try:
             localctx = miParserParser.IdentASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 217
+            self.state = 226
             self.match(miParserParser.ID)
         except RecognitionException as re:
             localctx.exception = re
