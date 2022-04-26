@@ -26,9 +26,6 @@ def nextToken(self):
 
 program : statement*    #programAST;
 
-
-
-
 //2 ***
 statement : DEF ID LEFTP argList RIGHTP COLON sequence  #defStatement                            //3
             | IF LEFTP? expression RIGHTP? COLON sequence (ELSE COLON sequence)? #ifStatement                         //6
@@ -54,7 +51,7 @@ sequence : INDENT (statement)+ DEDENT #sequenceAST;
 expression : additionExpression comparison #expressionAST;
 
 //17
-comparison : ( (LT| GT  | LET | GET | EQUAL)   additionExpression)* #comparisonAST;
+comparison : ( (LT| GT  | LET | GET | EQUAL | NOTEQUAL)   additionExpression)* #comparisonAST;
 
 //18
 additionExpression : multiplicationExpression additionFactor #aditionalExpressionAST;
@@ -148,7 +145,7 @@ LT : '<';
 LET : '<=';
 GET : '>=';
 EQUAL : '==';
-
+NOTEQUAL : '!=';
 
 
 

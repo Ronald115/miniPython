@@ -31,7 +31,7 @@ class LexerErrorListener(ErrorListener):
 
 
 if __name__ == "__main__":
-    file = FileStream(sys.argv[1])
+    file = FileStream(sys.argv[1], encoding='utf-8')
     lexer = miParserLexer(file)
     lexer.removeErrorListeners()
     lexerError = LexerErrorListener()
