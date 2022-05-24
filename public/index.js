@@ -58,10 +58,13 @@ compile.addEventListener('click', async ()=>{
         
         let result = document.querySelector("#result")
 
-        let parserErrors = receivedData.parser
-        let lexerErrors = receivedData.lexer
-        let contextualErrors = receivedData.contextual
-        let typeErrors = receivedData.typeErrors
+        let errors = receivedData.errors
+        let output = receivedData.output
+
+        let parserErrors = errors.parser
+        let lexerErrors = errors.lexer
+        let contextualErrors = errors.contextual
+        let typeErrors = errors.typeErrors
 
         let successful = true
 
@@ -146,11 +149,13 @@ compile.addEventListener('click', async ()=>{
     
         console.log("Entro aca");
         result.classList.remove("redText")
-        result.classList.remove("greenText")
+        result.classList.remove("whiteText")
         
         if (successful){
-            result.classList.add("greenText")
-            result.innerHTML = "Compilation Successful"
+            result.innerHTML = output + "\n\nCompilation successful"
+            
+            result.classList.add("whiteText")
+           
         }else{
             result.classList.add("redText")
             result.innerHTML = resultLog

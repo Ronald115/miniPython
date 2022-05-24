@@ -1,4 +1,10 @@
-def a(x):
- print(x)
+def square(param):
+    resultado = param*param
+    return resultado
 
-a(1)
+def imprimir(param):
+	num = 2 * 2 + param
+	print(square(num)-num)
+	return
+def Main():
+	imprimir(2)

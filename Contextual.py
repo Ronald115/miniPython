@@ -15,14 +15,29 @@ class Contextual(miParserVisitor):
         self.tm = TablaMetodos()
         self.tm.openScope()
 
+        self.codigo = []
+        self.instActual = 1
+
+    def generate(self, instr, arg):
+        self.codigo.append({'instr': instr, 'arg':arg})
+        self.instActual += 1
+
     # Visit a parse tree #programAST.
     def visitProgramAST(self, ctx: miParserParser.ProgramASTContext):
         for i in range(0, len(ctx.statement())):
             self.visit(ctx.statement(i))
 
+        self.generate("END",None)
+        return self.codigo
+
     # Visit a parse tree #defStatement.
     def visitDefStatement(self, ctx: miParserParser.DefStatementContext):
+        self.generate("DEF",ctx.ID().getText())
         args, argsCtx = self.visit(ctx.argList())
+
+        for i in args:
+            self.generate("PUSH_LOCAL",i)
+
         self.tm.insertar(ctx.ID().getSymbol(), ctx, args)
         self.ts.openScope()
         self.tm.openScope()
@@ -40,11 +55,16 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #returnStatement.
     def visitReturnStatement(self, ctx: miParserParser.ReturnStatementContext):
-        self.visit(ctx.expression())
-
+        if ctx.expression():
+            self.visit(ctx.expression())
+            self.generate("RETURN_VALUE", None)
+        else:
+            self.generate("RETURN", None)
     # Visit a parse tree #printStatement.
     def visitPrintStatement(self, ctx: miParserParser.PrintStatementContext):
         self.visit(ctx.expression())
+        self.generate("LOAD_GLOBAL","print")
+        self.generate("CALL_FUNCTION","1")
 
     # Visit a parse tree #whileStatement.
     def visitWhileStatement(self, ctx: miParserParser.WhileStatementContext):
@@ -62,8 +82,9 @@ class Contextual(miParserVisitor):
         found = self.ts.buscarEnNivelActual(ctx.ID().getText())
         if not found:
             self.ts.insertar(ctx.ID().getSymbol(), ctx)
-
+            self.generate("PUSH_LOCAL", ctx.ID().getText())
         self.visit(ctx.expression())
+        self.generate("STORE_FAST", ctx.ID().getText())
 
     # Visit a parse tree #functionCallStatement.
     def visitFunctionCallStatement(self, ctx: miParserParser.FunctionCallStatementContext):
@@ -73,6 +94,7 @@ class Contextual(miParserVisitor):
         pe = self.visit(ctx.primitiveExpression())
         if pe == "ident":
             self.visitIdentMet(ctx.primitiveExpression().ident(), params)
+            self.generate("CALL_FUNCTION", params)
         else:
             self.typeErrors.append({"type": pe, "call": True})
 
@@ -125,16 +147,30 @@ class Contextual(miParserVisitor):
     def visitAddFactor(self, ctx: miParserParser.AddFactorContext):
         for i in range(0, len(ctx.elementExpression())):
             self.visit(ctx.elementExpression(i))
+            if ctx.ADD(i):
+                self.generate("BINARY_ADD", None)
+            else:
+                self.generate("BINARY_SUBSTRACT", None)
 
     # Visit a parse tree #multiplicationExpressionAST.
     def visitMultiplicationExpressionAST(self, ctx: miParserParser.MultiplicationExpressionASTContext):
         self.visit(ctx.elementExpression())
         self.visit(ctx.multiplicationFactor())
 
+
+
     # Visit a parse tree #mulFactor.
     def visitMulFactor(self, ctx: miParserParser.MulFactorContext):
         for i in range(0, len(ctx.elementExpression())):
             self.visit(ctx.elementExpression(i))
+
+            if ctx.MUL(i):
+                self.generate("BINARY_MULTIPLY", None)
+            else:
+                self.generate("BINARY_DIVIDE", None)
+
+
+
 
     # Visit a parse tree #elementExpressionAST.
     def visitElementExpressionAST(self, ctx: miParserParser.ElementExpressionASTContext):
@@ -162,18 +198,22 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #integerPE.
     def visitIntegerPE(self, ctx: miParserParser.IntegerPEContext):
+        self.generate("LOAD_CONST", ctx.NUM().getText())
         return "int"
 
     # Visit a parse tree #floatPE.
     def visitFloatPE(self, ctx: miParserParser.FloatPEContext):
+        self.generate("LOAD_CONST", ctx.FLOAT().getText())
         return 'float'
 
     # Visit a parse tree #charPE.
     def visitCharPE(self, ctx: miParserParser.CharPEContext):
+        self.generate("LOAD_CONST", ctx.CHAR().getText())
         return 'char'
 
     # Visit a parse tree #stringPE.
     def visitStringPE(self, ctx: miParserParser.StringPEContext):
+        self.generate("LOAD_CONST", ctx.STRING().getText())
         return 'str'
 
     # Visit a parse tree #identifierPE.
@@ -186,6 +226,7 @@ class Contextual(miParserVisitor):
         if ctx.expressionList():
             params = self.visit(ctx.expressionList())
         self.visitIdentMet(ctx.ident(), params)
+        self.generate("CALL_FUNCTION", params)
         return "call"
 
     # Visit a parse tree #expressPE.
@@ -213,12 +254,13 @@ class Contextual(miParserVisitor):
         ident = self.ts.buscar(ctx.ID().getText())
         if not ident:
             self.errores.append({"ident": ctx.ID().getText(), "requiredParams": None, "givenParams": None, "found": None, "args": None})
+        self.generate("LOAD_FAST", ctx.ID().getText())
 
     def visitIdentMet(self, ctx: miParserParser.IdentContext, params):
         ident, requiredParams, found, args = self.tm.buscar(ctx.ID().getText(), params)
         if not ident:
             self.errores.append({"ident": ctx.ID().getText(), "requiredParams": requiredParams, "givenParams": params, "found": found, "args": args})
-
+        self.generate("LOAD_GLOBAL", ctx.ID().getText())
         return ident
 
     def imprimir(self):

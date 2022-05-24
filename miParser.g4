@@ -29,7 +29,7 @@ program : statement*    #programAST;
 //2 ***
 statement : DEF ID LEFTP argList RIGHTP COLON sequence  #defStatement                            //3
             | IF LEFTP? expression RIGHTP? COLON sequence (ELSE COLON sequence)? #ifStatement                         //6
-            | RETURN LEFTP? expression RIGHTP? NEWLINE #returnStatement                                            //7
+            | RETURN (LEFTP? expression RIGHTP?)? NEWLINE #returnStatement                                            //7
             | PRINT LEFTP expression RIGHTP NEWLINE #printStatement                                              //8
             | WHILE LEFTP? expression RIGHTP? COLON sequence #whileStatement                                       //9
             | FOR LEFTP? expression RIGHTP? IN expressionList COLON sequence #forStatement                         //10
@@ -57,7 +57,7 @@ comparison : ( (LT| GT  | LET | GET | EQUAL | NOTEQUAL)   additionExpression)* #
 additionExpression : multiplicationExpression additionFactor #aditionalExpressionAST;
 
 //19 ///////////////////////////////////////////////////////////////////////////
-additionFactor : ( (ADD | SUB) elementExpression)* #addFactor;
+additionFactor : ( (ADD | SUB) elementExpression )*  #addFactor;
 
 //20
 multiplicationExpression : elementExpression multiplicationFactor #multiplicationExpressionAST;
