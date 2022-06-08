@@ -8,6 +8,7 @@ class TablaSimbolos(Tablas):
             self.nivel = nivel
             self.declCtx = decl
 
+
     def insertar(self, id, decl):
         i = self.Identificador(id, decl, self.nivelActual)
         self.tabla.insert(0, i)

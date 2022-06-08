@@ -4,7 +4,6 @@ class Tablas():
     def __init__(self):
         self.tabla = []
         self.nivelActual = -1
-
     def openScope(self):
         self.nivelActual += 1
 
@@ -32,7 +31,7 @@ class Tablas():
     def buscarEnNivelActual(self, nombre):
         found = False
         for i in range(0, len(self.tabla)):
-            if self.tabla[i].tok.text == nombre and self.tabla[i].nivel == self.nivelActual:
+            if (self.tabla[i].tok.text == nombre) and self.tabla[i].nivel == self.nivelActual:
                 found = True
                 break
 

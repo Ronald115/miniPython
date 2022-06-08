@@ -65,11 +65,11 @@ compile.addEventListener('click', async ()=>{
         let lexerErrors = errors.lexer
         let contextualErrors = errors.contextual
         let typeErrors = errors.typeErrors
-
+        let runtimeErrors = errors.runtimeErrors
+        console.log(runtimeErrors);
         let successful = true
 
         let resultLog = ""
-        console.log(receivedData);
 
         if (lexerErrors.length){
 
@@ -147,7 +147,13 @@ compile.addEventListener('click', async ()=>{
             successful = false
         }
     
-        console.log("Entro aca");
+        if (runtimeErrors.length){
+            runtimeErrors.forEach(e => {
+                resultLog = resultLog + e +'\n';
+            });
+            successful = false
+        }
+
         result.classList.remove("redText")
         result.classList.remove("whiteText")
         

@@ -28,12 +28,12 @@ program : statement*    #programAST;
 
 //2 ***
 statement : DEF ID LEFTP argList RIGHTP COLON sequence  #defStatement                            //3
-            | IF LEFTP? expression RIGHTP? COLON sequence (ELSE COLON sequence)? #ifStatement                         //6
+            | IF LEFTP? expression RIGHTP? COLON sequence (ELSE COLON elseSequence)? #ifStatement                         //6
             | RETURN (LEFTP? expression RIGHTP?)? NEWLINE #returnStatement                                            //7
             | PRINT LEFTP expression RIGHTP NEWLINE #printStatement                                              //8
             | WHILE LEFTP? expression RIGHTP? COLON sequence #whileStatement                                       //9
             | FOR LEFTP? expression RIGHTP? IN expressionList COLON sequence #forStatement                         //10
-            | ID ASSIGN expression NEWLINE  #assignStatement                                         //11
+            | ID elementAccess ASSIGN expression NEWLINE  #assignStatement                                         //11
             | primitiveExpression LEFTP expressionList? RIGHTP NEWLINE  #functionCallStatement       //12
             | expressionList NEWLINE #expressionStatement;                                          //13
 //3
@@ -46,6 +46,7 @@ argList :     ID?  #argument
 //14 ***
 sequence : INDENT (statement)+ DEDENT #sequenceAST;
 
+elseSequence : INDENT (statement)+ DEDENT #elseSequenceAST;
 
 //16
 expression : additionExpression comparison #expressionAST;
@@ -90,6 +91,7 @@ primitiveExpression : '-'?NUM     #integerPE
                     | '-'?FLOAT   #floatPE
                     | CHAR    #charPE
                     | STRING  #stringPE
+                    | BOOL #boolPE
                     | ident #identifierPE
                     | ident (LEFTP expressionList? RIGHTP) #callPE
                     | LEFTP expressionList RIGHTP # expressPE
@@ -157,7 +159,7 @@ ES : BSN | BST;
 
 FLOAT : NUM'.'NUM;
 
-
+BOOL : 'True' | 'False';
 CHAR : SQUOTES (LETTER | DIGIT | SYMBOLS | ES) SQUOTES;
 STRING :  QUOTES (LETTER | DIGIT | SYMBOLS | ES)* QUOTES;
 

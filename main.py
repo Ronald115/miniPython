@@ -2,6 +2,7 @@ from distutils.log import error
 import json
 import sys
 import os
+import subprocess
 
 sys.path.append("./generated")
 
@@ -12,7 +13,7 @@ from antlr4 import *
 from antlr4.error.ErrorListener import ErrorListener
 from Contextual import Contextual
 
-errors = {"parser": [], "lexer": [], "contextual": [], "typeErrors": []}
+errors = {"parser": [], "lexer": [], "contextual": [], "typeErrors": [], 'runtimeErrors' : []}
 errorDetected = False
 
 
@@ -28,9 +29,8 @@ class LexerErrorListener(ErrorListener):
         # print("Scanner ERROR: line %d:%d %s\n" %(line, column, msg))
 
 def genBytecode(codigo):
-
     f = open('bytecode.txt', 'w')
-    cont = 1
+    cont = 0
     for instr in codigo:
         if (instr['arg'] == None):
             f.write("{} {}\n".format(str(cont), instr['instr']))
@@ -38,7 +38,6 @@ def genBytecode(codigo):
             f.write("{} {} {}\n".format(str(cont), instr['instr'], instr['arg']))
         cont += 1
     f.close()
-
 
 if __name__ == "__main__":
     file = FileStream(sys.argv[1], encoding='utf-8')
@@ -67,8 +66,24 @@ if __name__ == "__main__":
             errorDetected = True
     else:
         errorDetected = True
-
+    output = ""
     if not errorDetected:
         genBytecode(codigo)
-        output = os.popen('MiniPY.exe bytecode.txt').read()
-    print(json.dumps({"errors": errors, "output": output[0:-1]}))
+
+        FNULL = open(os.devnull, 'w')  # use this if you want to suppress output to stdout from the subprocess
+        filename = "MiniPY.exe"
+        args = "bytecode.txt"
+        proc = subprocess.run([filename, args], capture_output=True)
+
+        if proc.returncode == 0:
+            output = proc.stdout.decode("utf-8")
+        else:
+            exec = str(proc.stderr)
+            exec = exec[50:exec.find(r'\r')]
+            errors['runtimeErrors'].append(exec)
+
+    print(json.dumps({"errors": errors, "output": output}))
+
+
+# output = os.popen('MiniPY.exe bytecode.txt').read()
+

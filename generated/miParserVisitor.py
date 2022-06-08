@@ -74,6 +74,11 @@ class miParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by miParserParser#elseSequenceAST.
+    def visitElseSequenceAST(self, ctx:miParserParser.ElseSequenceASTContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by miParserParser#expressionAST.
     def visitExpressionAST(self, ctx:miParserParser.ExpressionASTContext):
         return self.visitChildren(ctx)
@@ -136,6 +141,11 @@ class miParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by miParserParser#stringPE.
     def visitStringPE(self, ctx:miParserParser.StringPEContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by miParserParser#boolPE.
+    def visitBoolPE(self, ctx:miParserParser.BoolPEContext):
         return self.visitChildren(ctx)
 
 
