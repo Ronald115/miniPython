@@ -205,11 +205,12 @@ class Contextual(miParserVisitor):
 
     # Visit a parse tree #argumentsList.
     def visitArgumentsList(self, ctx: miParserParser.ArgumentsListContext):
-        args = [ctx.ID(0)]
-        self.generate("PUSH_LOCAL", ctx.ID(0))
-        for i in range(1, len(ctx.ID())):
+        args = []
+        for i in range(len(ctx.ID())-1, 0, -1):
             args.append(ctx.ID(i))
             self.generate("PUSH_LOCAL", ctx.ID(i))
+        args.append(ctx.ID(0))
+        self.generate("PUSH_LOCAL", ctx.ID(0))
         return args, ctx
 
     # Visit a parse tree #sequenceAST.
@@ -259,8 +260,12 @@ class Contextual(miParserVisitor):
 
             if ctx.MUL(i):
                 self.generate("BINARY_MULTIPLY", None)
-            else:
+            elif ctx.DIV(i):
                 self.generate("BINARY_DIVIDE", None)
+            elif ctx.MOD(i):
+                self.generate("BINARY_MODULO", None)
+            elif ctx.POW(i):
+                self.generate("BINARY_POWER", None)
 
     # Visit a parse tree #elementExpressionAST.
     def visitElementExpressionAST(self, ctx: miParserParser.ElementExpressionASTContext):

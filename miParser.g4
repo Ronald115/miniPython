@@ -65,7 +65,7 @@ multiplicationExpression : elementExpression multiplicationFactor #multiplicatio
 
 
 //21
-multiplicationFactor : ( (MUL|DIV) elementExpression )* #mulFactor;
+multiplicationFactor : ( (MUL|DIV|MOD|POW) elementExpression )* #mulFactor;
 
 //22
 elementExpression : primitiveExpression elementAccess #elementExpressionAST;
@@ -136,10 +136,10 @@ DEF : 'def';
 //Arithmetic
 ADD : '+';
 SUB : '-';
+POW : '**';
 MUL : '*';
 DIV : '/';
-INTDIV : '//';
-
+MOD : '%';
 
 //Comparisons
 GT : '>';

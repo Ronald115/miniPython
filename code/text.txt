@@ -1,7 +1,9 @@
-def metodo1():
-    x = 1 + '1'
+
+def whil():
+    for i in [1,2,3,4]:
+        print(i)
     return
 
-
 def Main():
-    metodo1()                                                                                                        
+    whil()
+
